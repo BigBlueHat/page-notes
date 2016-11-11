@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Make a Page Note</title>
+
+  <link rel="stylesheet" href="../lib/semantic/semantic.css" />
+</head>
+<body>
+  <br />
+  <div class="ui container">
+    <form id="page-note" class="ui form">
+      <div class="field">
+        <label>Page Note (in English...for now)</label>
+        <textarea name="value" rows="2">hello world</textarea>
+      </div>
+
+      <div class="inline fields">
+        <label>Translate to:</label>
+        <div class="field">
+          <div class="ui checkbox">
+            <input name="language[]" checked tabindex="0" class="hidden" type="checkbox" value="es">
+            <label>Spanish</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input name="language[]" checked tabindex="0" class="hidden" type="checkbox" value="ru">
+            <label>Russian</label>
+          </div>
+        </div>
+      </div>
+      <button class="ui button" type="submit">Save</button>
+    </form>
+  </div>
+  <br />
+<script src="../lib/jquery.js"></script>
+<script src="../lib/semantic/checkbox.js"></script>
+<script src="../lib/semantic/form.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

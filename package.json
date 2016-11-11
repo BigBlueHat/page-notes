@@ -1,0 +1,17 @@
+{
+  "name": "page-notes",
+  "version": "0.0.1",
+  "description": "Make notes about web pages; translate them; share them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Web",
+    "Annotation",
+    "translation",
+    "commenting"
+  ],
+  "author": "BigBlueHat <byoung@bigbluehat.com>",
+  "license": "Apache-2.0"
+}
