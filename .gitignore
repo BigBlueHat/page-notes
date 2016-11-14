@@ -1,0 +1,4 @@
+node_modules
+
+# build these don't commit them
+extension/popup/popup.js

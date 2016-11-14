@@ -4,6 +4,7 @@
   "description": "Make notes about web pages; translate them; share them.",
   "main": "index.js",
   "scripts": {
+    "build": "browserify src/popup.js -o extension/popup/popup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
