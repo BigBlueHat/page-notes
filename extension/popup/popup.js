@@ -11,6 +11,10 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [callback=<name of the callback function>]
  **/
 
+function storeAnnotation(annotation) {
+  console.log(JSON.stringify(annotation));
+}
+
 
 $('.ui.checkbox').checkbox();
 
@@ -40,8 +44,9 @@ $form.on('submit', function(ev) {
       .filter(function(lang) { return Boolean(lang); });
 
     if (languages.length > 0) {
-      languages.forEach(function(lang) {
-        $.getJSON(`${translateURL}&text=${formData.value}&lang=en-${lang}`)
+      let lamdas = languages.map(function(lang) {
+        // this little lamda went to market...and did the translation
+        return $.getJSON(`${translateURL}&text=${formData.value}&lang=en-${lang}`)
           .then(function(resp) {
             if ('code' in resp && resp.code === 200) {
               annotation.body.items.push({
@@ -57,12 +62,17 @@ $form.on('submit', function(ev) {
                   homepage: "https://tech.yandex.com/translate/"
                 }
               });
+              console.log(`plus ${lang}`, annotation);
             }
           });
       });
-      console.log(annotation);
+      $.when
+        .apply($, lamdas)
+        .done(function() {
+          storeAnnotation(annotation);
+        });
     }
   } else {
-    console.log(annotation);
+    storeAnnotation(annotation);
   }
 });
