@@ -1,3 +1,8 @@
+const PouchDB = require('pouchdb-browser');
+PouchDB.plugin(require('pouchdb-find'));
+
+const Mustache = require('mustache');
+
 const translateApiKey = 'trnsl.1.1.20161110T161225Z.e921f6bf7d2941b2.2c92a0a9be39b02fba4ce72ba91afcdf69d0bb29';
 const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${translateApiKey}`;
 /**
@@ -11,10 +16,80 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [callback=<name of the callback function>]
  **/
 
-function storeAnnotation(annotation) {
-  console.log(JSON.stringify(annotation));
+const db = new PouchDB('page-notes');
+window.db = db;
+
+// create the target, log any output...just 'cause
+db
+  .createIndex({
+    index: {
+      fields: ['target']
+    }
+  })
+  .then(console.log.bind(console))
+  .catch(console.log.bind(console));
+
+
+// returns a promise or error logs
+function getAnnotations(target) {
+  return db
+    .find({
+      selector: {
+        target: target
+      }
+    })
+    .catch(console.error.bind(console));
 }
 
+function displayAnnotations(target) {
+  const annotationTemplate = $('#template-event').text();
+  const $feed = $('#notes-feed');
+  getAnnotations(target)
+    .then((result) => {
+      if ('docs' in result && result.docs.length > 0) {
+        // remove "no annotations yet" message
+        $feed.empty();
+        $(result.docs).each(function(i, doc) {
+          let bodies = doc.body.items.sort(function(a, b) {
+            if (a['language'] < b['language']) return -1;
+            if (a['language'] > b['language']) return 1;
+          });
+          let annotation = {
+            created: (new Date(doc.created)).toDateString(),
+            bodies: bodies
+          };
+          annotation.bodies[0].active = true;
+          let rendered = Mustache.render(annotationTemplate, annotation);
+          $feed.append($(rendered));
+        });
+        $('.tabular.menu .item').tab();
+      }
+    });
+}
+
+function storeAnnotation(annotation) {
+  // construcut unique collation friendly id (for _id & id)
+  // TODO: find a better URN to keep this stuff in
+  let id = 'urn:page-notes:'
+    + encodeURI(annotation.target)
+    + '/' + (new Date).toISOString();
+
+  annotation._id = id;
+  annotation.id = id;
+
+  console.log(JSON.stringify(annotation));
+
+  db.put(annotation)
+    .then(function() {
+      console.log.bind(console);
+      // TODO: move this out...polutes the focus of the function...
+      displayAnnotations(annotation.target);
+    });
+//  chrome.storage.local.set(....
+  //  store AnnotationCollection?
+  //  uuid for id?
+  //
+}
 
 $('.ui.checkbox').checkbox();
 
@@ -26,16 +101,22 @@ $form.on('submit', function(ev) {
   var annotation = {
     "@context": "http://www.w3.org/ns/anno.jsonld",
     "type": "Annotation",
+    "created": (new Date).toISOString(),
     "body": {
       "type": "Choice",
       "items": [
         {
+          "type": "TextualBody",
           "value": formData.value,
-          "language": "en"
+          "language": "en",
+          "format": "text/plain",
+          "creator": {
+            "type": "Person"
+          }
         }
       ]
     },
-    "target": location.href
+    "target": currentTabURL
   };
 
   // TODO: change arbitrary length text check to something smarter
@@ -62,7 +143,6 @@ $form.on('submit', function(ev) {
                   homepage: "https://tech.yandex.com/translate/"
                 }
               });
-              console.log(`plus ${lang}`, annotation);
             }
           });
       });
@@ -75,4 +155,19 @@ $form.on('submit', function(ev) {
   } else {
     storeAnnotation(annotation);
   }
+});
+
+let currentTabURL = false;
+$(function() {
+  chrome.tabs
+    .query(
+      { active: true, currentWindow: true },
+      function(results) {
+        currentTabURL = results[0].url;
+        $('#current-tab-url').attr('title', currentTabURL)
+          .find('input').val(currentTabURL);
+        // show any annotations we have on popup
+        displayAnnotations(currentTabURL);
+      });
+  $form.find('textarea').focus();
 });
