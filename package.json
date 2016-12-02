@@ -2,7 +2,7 @@
   "name": "page-notes",
   "version": "1.0.0",
   "description": "Make notes about web pages; translate them; share them.",
-  "main": "index.js",
+  "repository": "https://github.com/BigBlueHat/page-notes",
   "scripts": {
     "build": "browserify src/popup.js -o extension/popup/popup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
