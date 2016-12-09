@@ -13,12 +13,19 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "contextMenus"
   ],
 
   "browser_action": {
     "default_title": "Add a Page Note",
     "default_popup": "popup/index.html",
     "default_icon": "images/icon32.png"
+  },
+
+  "background": {
+    "scripts": [
+      "context-menu.js"
+    ]
   }
 }

@@ -4,7 +4,9 @@
   "description": "Make notes about web pages; translate them; share them.",
   "main": "index.js",
   "scripts": {
-    "build": "browserify src/popup.js -o extension/popup/popup.js",
+    "build": "npm run build:popup && npm run build:content-script",
+    "build:popup": "browserify src/popup.js -o extension/popup/popup.js",
+    "build:content-script": "browserify src/content-script.js -o extension/content-script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,10 +17,13 @@
   ],
   "author": "BigBlueHat <byoung@bigbluehat.com>",
   "license": "Apache-2.0",
-
   "dependencies": {
     "mustache": "^2.3.0",
     "pouchdb-browser": "^6.0.7",
     "pouchdb-find": "^0.10.3"
+  },
+  "devDependencies": {
+    "dom-anchor-text-position": "^3.0.3",
+    "dom-anchor-text-quote": "^3.0.0"
   }
 }
