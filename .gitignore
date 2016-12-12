@@ -1,4 +1,6 @@
 node_modules
 
 # build these don't commit them
+extension/background.js
+extension/content-script.js
 extension/popup/popup.js

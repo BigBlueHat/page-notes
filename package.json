@@ -4,9 +4,10 @@
   "description": "Make notes about web pages; translate them; share them.",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:popup && npm run build:content-script",
-    "build:popup": "browserify src/popup.js -o extension/popup/popup.js",
+    "build": "npm run build:background && npm run build:popup && npm run build:content-script",
+    "build:background": "browserify src/background.js -o extension/background.js",
     "build:content-script": "browserify src/content-script.js -o extension/content-script.js",
+    "build:popup": "browserify src/popup.js -o extension/popup/popup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

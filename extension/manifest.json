@@ -25,7 +25,7 @@
 
   "background": {
     "scripts": [
-      "context-menu.js"
+      "background.js"
     ]
   }
 }

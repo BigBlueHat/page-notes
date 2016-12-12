@@ -1,5 +1,4 @@
-const PouchDB = require('pouchdb-browser');
-PouchDB.plugin(require('pouchdb-find'));
+const {getAnnotations, storeAnnotation} = require('./storage.js');
 
 const Mustache = require('mustache');
 
@@ -15,31 +14,6 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [options=<translation options>]
    & [callback=<name of the callback function>]
  **/
-
-const db = new PouchDB('page-notes');
-window.db = db;
-
-// create the target, log any output...just 'cause
-db
-  .createIndex({
-    index: {
-      fields: ['target']
-    }
-  })
-  .then(console.log.bind(console))
-  .catch(console.log.bind(console));
-
-
-// returns a promise or error logs
-function getAnnotations(target) {
-  return db
-    .find({
-      selector: {
-        target: target
-      }
-    })
-    .catch(console.error.bind(console));
-}
 
 function displayAnnotations(target) {
   const annotationTemplate = $('#template-event').text();
@@ -65,30 +39,6 @@ function displayAnnotations(target) {
         $('.tabular.menu .item').tab();
       }
     });
-}
-
-function storeAnnotation(annotation) {
-  // construcut unique collation friendly id (for _id & id)
-  // TODO: find a better URN to keep this stuff in
-  let id = 'urn:page-notes:'
-    + encodeURI(annotation.target)
-    + '/' + (new Date).toISOString();
-
-  annotation._id = id;
-  annotation.id = id;
-
-  console.log(JSON.stringify(annotation));
-
-  db.put(annotation)
-    .then(function() {
-      console.log.bind(console);
-      // TODO: move this out...polutes the focus of the function...
-      displayAnnotations(annotation.target);
-    });
-//  chrome.storage.local.set(....
-  //  store AnnotationCollection?
-  //  uuid for id?
-  //
 }
 
 $('.ui.checkbox').checkbox();
@@ -149,11 +99,19 @@ $form.on('submit', function(ev) {
       $.when
         .apply($, lamdas)
         .done(function() {
-          storeAnnotation(annotation);
+          storeAnnotation(annotation)
+            .then(function() {
+              console.log.bind(console);
+              displayAnnotations(annotation.target);
+            });
+        });
+    } else {
+      storeAnnotation(annotation)
+        .then(function() {
+          console.log.bind(console);
+          displayAnnotations(annotation.target);
         });
     }
-  } else {
-    storeAnnotation(annotation);
   }
 });
 
