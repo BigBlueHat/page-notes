@@ -41,11 +41,23 @@ function getAllAnnotations() {
 
 
 // returns a promise or error logs
+// TODO: rename this to getPageNotes
 function getAnnotations(target) {
   return db
     .find({
       selector: {
         target: target
+      }
+    })
+    .catch(console.error.bind(console));
+}
+
+// returns a promise or error logs
+function getHighlights(target) {
+  return db
+    .find({
+      selector: {
+        'target.source': target
       }
     })
     .catch(console.error.bind(console));
@@ -71,4 +83,5 @@ function storeAnnotation(annotation) {
 
 module.exports.getAllAnnotations = getAllAnnotations;
 module.exports.getAnnotations = getAnnotations;
+module.exports.getHighlights = getHighlights;
 module.exports.storeAnnotation = storeAnnotation;
