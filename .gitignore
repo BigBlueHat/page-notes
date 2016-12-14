@@ -4,3 +4,4 @@ node_modules
 extension/background.js
 extension/content-script.js
 extension/popup/popup.js
+extension/list/list.js

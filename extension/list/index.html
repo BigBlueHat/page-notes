@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Page Notes</title>
+
+  <link rel="stylesheet" href="../lib/semantic/semantic.css" />
+
+  <script id="template-event" type="text/html;profile=https://mustache.github.io/mustache.5.html">
+    <div class="event">
+      <div class="content">
+        <div class="ui top attached tabular menu">
+          <span class="date item">{{created}}</span>
+          <div class="right menu">
+          {{#bodies}}
+          <a class="item{{#active}} active{{/active}}"
+            data-tab="{{language}}">{{language}}</a>
+          {{/bodies}}
+          </div>
+        </div>
+        {{#bodies}}
+        <div class="ui bottom attached tab segment{{#active}} active{{/active}}"
+          data-tab="{{language}}">
+          {{value}}
+        </div>
+        {{/bodies}}
+      </div>
+    </div>
+    <div class="ui horizontal divider"></div>
+  </script>
+</head>
+<body>
+  <br />
+  <div class="ui container">
+    <h3 class="ui header">Primary/Default AnnotationCollection JSON-LD contents</h3>
+    <pre id="all-notes"></pre>
+  </div>
+  <br />
+<script src="../lib/jquery.js"></script>
+<script src="../lib/semantic/checkbox.js"></script>
+<script src="../lib/semantic/tab.js"></script>
+<script src="../lib/semantic/form.js"></script>
+<script src="list.js"></script>
+</body>
+</html>

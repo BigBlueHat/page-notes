@@ -13,6 +13,33 @@ db
   .then(console.log.bind(console))
   .catch(console.log.bind(console));
 
+// Promise returns a Web Annotation Container
+function getAllAnnotations() {
+  return db.allDocs({include_docs: true})
+    .then(function(results) {
+      var annotations = {
+        '@context': 'http://www.w3.org/ns/anno.jsonld',
+        // TODO: ...how do we make this actually universal?
+        // ...user is not yet identified
+        // ...we can get at Platform Arch/OS info https://developer.chrome.com/extensions/runtime#type-PlatformInfo
+        // ...it certainly can't stay like this...can it?
+        id: 'urn:page-notes:collections:default',
+        type: 'AnnotationCollection',
+        items: []
+      };
+
+      if ('rows' in results) {
+        results.rows.forEach(function(row) {
+          if ('doc' in row && row.doc.type === 'Annotation') {
+            annotations.items.push(row.doc);
+          }
+        });
+      }
+      return annotations;
+    });
+}
+
+
 // returns a promise or error logs
 function getAnnotations(target) {
   return db
@@ -39,9 +66,9 @@ function storeAnnotation(annotation) {
 
   console.log(JSON.stringify(annotation));
 
-  //  TODO: store AnnotationCollection?
   return db.put(annotation);
 }
 
+module.exports.getAllAnnotations = getAllAnnotations;
 module.exports.getAnnotations = getAnnotations;
 module.exports.storeAnnotation = storeAnnotation;

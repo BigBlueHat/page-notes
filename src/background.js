@@ -23,8 +23,13 @@ function sendMessageToTabs(tabs) {
           tab.id,
           {}, // TODO: is there anything we need to tell the content script?
           function(response) {
-            console.log("Annotation conveyor sent in from content script:");
+            console.log("Store the Annotation we got back");
             console.log(response);
+            if ('annotation' in response) {
+              storeAnnotation(response.annotation)
+                .then(console.log.bind(console));
+                // TODO: highlight after "Annotate..."
+            }
           });
       });
   }

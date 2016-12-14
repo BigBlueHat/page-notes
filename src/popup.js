@@ -15,6 +15,8 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [callback=<name of the callback function>]
  **/
 
+$('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
+
 function displayAnnotations(target) {
   const annotationTemplate = $('#template-event').text();
   const $feed = $('#notes-feed');
