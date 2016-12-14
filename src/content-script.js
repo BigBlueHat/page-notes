@@ -11,13 +11,14 @@ function getAnnotation() {
   if (range.collapsed) return;
 
   const textPositionSelector = textPosition.fromRange(document.body, range);
-  Object.assign(textPositionSelector, {type: 'TextPosition'});
+  Object.assign(textPositionSelector, {type: 'TextPositionSelector'});
 
   const textQuoteSelector = textQuote.fromRange(document.body, range);
-  Object.assign(textQuoteSelector, {type: 'TextQuote'});
+  Object.assign(textQuoteSelector, {type: 'TextQuoteSelector'});
 
   const annotation = {
     '@context': 'http://www.w3.org/ns/anno.jsonld',
+    type: 'Annotation',
     target: {
       type: 'SpecificResource',
       source: window.location.href,
