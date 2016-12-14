@@ -28,9 +28,11 @@ function getAnnotations(target) {
 function storeAnnotation(annotation) {
   // construcut unique collation friendly id (for _id & id)
   // TODO: find a better URN to keep this stuff in
+  // assume annotation.target is an IRI if .source is missing
+  let target_iri = annotation.target.source || annotation.target;
   let id = 'urn:page-notes:'
-    + encodeURI(annotation.target)
-    + '/' + (new Date).toISOString();
+    + encodeURI(target_iri)
+    + ':' + (new Date).toISOString();
 
   annotation._id = id;
   annotation.id = id;
