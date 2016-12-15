@@ -4,7 +4,12 @@
   "description": "Make notes about web pages; translate them; share them.",
   "repository": "https://github.com/BigBlueHat/page-notes",
   "scripts": {
-    "build": "browserify src/popup.js -o extension/popup/popup.js",
+    "build": "npm run build:background && npm run build:popup && npm run build:annotate && npm run build:list && npm run build:highlighter",
+    "build:background": "browserify --debug src/background.js -o extension/background.js",
+    "build:annotate": "browserify --debug src/annotate.js -o extension/annotate.js",
+    "build:highlighter": "browserify --debug src/highlighter.js -o extension/highlighter.js",
+    "build:popup": "browserify --debug src/popup.js -o extension/popup/popup.js",
+    "build:list": "browserify --debug src/list.js -o extension/list/list.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,10 +20,14 @@
   ],
   "author": "BigBlueHat <byoung@bigbluehat.com>",
   "license": "Apache-2.0",
-
   "dependencies": {
     "mustache": "^2.3.0",
     "pouchdb-browser": "^6.0.7",
-    "pouchdb-find": "^0.10.3"
+    "pouchdb-find": "^0.10.3",
+    "wrap-range-text": "^1.0.1"
+  },
+  "devDependencies": {
+    "dom-anchor-text-position": "^3.0.3",
+    "dom-anchor-text-quote": "^3.0.0"
   }
 }
