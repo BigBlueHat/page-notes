@@ -15,8 +15,6 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [callback=<name of the callback function>]
  **/
 
-$('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
-
 function displayAnnotations(target) {
   const annotationTemplate = $('#template-event').text();
   const $feed = $('#notes-feed');
@@ -120,17 +118,18 @@ $form.on('submit', function(ev) {
   }
 });
 
+
+$('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
+
 let currentTabURL = false;
-$(function() {
-  chrome.tabs
-    .query(
-      { active: true, currentWindow: true },
-      function(results) {
-        currentTabURL = results[0].url;
-        $('#current-tab-url').attr('title', currentTabURL)
-          .find('input').val(currentTabURL);
-        // show any annotations we have on popup
-        displayAnnotations(currentTabURL);
-      });
-  $form.find('textarea').focus();
-});
+chrome.tabs
+  .query(
+    { active: true, currentWindow: true },
+    function(results) {
+      currentTabURL = results[0].url;
+      $('#current-tab-url').attr('title', currentTabURL)
+        .find('input').val(currentTabURL);
+      // show any annotations we have on popup
+      displayAnnotations(currentTabURL);
+    });
+$form.find('textarea').focus();
