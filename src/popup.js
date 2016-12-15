@@ -22,7 +22,9 @@ function displayAnnotations(target) {
   const $feed = $('#notes-feed');
   getAnnotations(target)
     .then((result) => {
+      let notes_count = 0;
       if ('docs' in result && result.docs.length > 0) {
+        notes_count = result.docs.length;
         // remove "no annotations yet" message
         $feed.empty();
         $(result.docs).each(function(i, doc) {
@@ -40,6 +42,7 @@ function displayAnnotations(target) {
         });
         $('.tabular.menu .item').tab();
       }
+      $('#notes-count').text(notes_count);
     });
 }
 
