@@ -3,6 +3,6 @@ node_modules
 # build these don't commit them
 extension/annotate.js
 extension/background.js
-extension/highlight.js
+extension/highlighter.js
 extension/popup/popup.js
 extension/list/list.js
