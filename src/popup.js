@@ -74,8 +74,11 @@ $form.on('submit', function(ev) {
 
   // TODO: change arbitrary length text check to something smarter
   if ('value' in formData && formData.value.length > 4) {
-    let languages = formData.language
-      .filter(function(lang) { return Boolean(lang); });
+    let languages = formData.languages
+      .filter(function(lang) {
+        // don't translate into the same language as the text
+        return (lang !== formData['value-language']);
+      });
 
     if (languages.length > 0) {
       let lamdas = languages.map(function(lang) {
@@ -120,6 +123,7 @@ $form.on('submit', function(ev) {
 
 
 $('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
+$('.ui.dropdown').dropdown();
 
 let currentTabURL = false;
 chrome.tabs
