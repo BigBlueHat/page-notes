@@ -1,21 +1,29 @@
+const levelgraph = require('levelgraph');
+const leveljs = require('level-js');
+const levelup = require('levelup');
+const levelgraphJSONLD = require('levelgraph-jsonld');
+
 const PouchDB = require('pouchdb-browser');
-PouchDB.plugin(require('pouchdb-find'));
 
-const db = new PouchDB('page-notes');
+const pdb = new PouchDB('page-notes');
+window.pdb = pdb;
 
-// create the target, log any output...just 'cause
-db
-  .createIndex({
-    index: {
-      fields: ['target']
-    }
-  })
-  .then(console.log.bind(console))
-  .catch(console.log.bind(console));
+const db = levelgraphJSONLD(
+  levelgraph(
+    levelup('page-notes-index', {
+      db: (location) => new leveljs(location)
+    })
+  )
+);
+window.db = db;
+
+const context = {
+  "@context": "http://www.w3.org/ns/anno.jsonld"
+};
 
 // Promise returns a Web Annotation Container
 function getAllAnnotations() {
-  return db.allDocs({include_docs: true})
+  return pdb.allDocs({include_docs: true})
     .then(function(results) {
       var annotations = {
         '@context': 'http://www.w3.org/ns/anno.jsonld',
@@ -39,32 +47,50 @@ function getAllAnnotations() {
     });
 }
 
-
-// returns a promise or error logs
-// TODO: rename this to getPageNotes
-function getAnnotations(target) {
-  return db
-    .find({
-      selector: {
-        target: target
-      }
-    })
-    .catch(console.error.bind(console));
+// Query must return an `id`
+function searchStream(query, callback) {
+  let stream = db.searchStream(query);
+  stream.on('data', (data) => {
+    if ('id' in data) {
+      db.jsonld.get(data.id,
+        context,
+        (err, json) => {
+          // TODO: pass error through to callback?
+          if (err) throw err;
+          callback(json);
+        }
+      )
+    }
+    // TODO: else throw error?
+  });
 }
 
 // returns a promise or error logs
-function getHighlights(target) {
-  return db
-    .find({
-      selector: {
-        'target.source': target
-      }
-    })
-    .catch(console.error.bind(console));
+function getPageNotes(target, on_each) {
+  let query = [
+    // search for annotations with a oa:hasSource relationship
+    { subject: db.v('id'),
+      predicate: 'http://www.w3.org/ns/oa#hasTarget',
+      object: target}
+  ];
+  searchStream(query, on_each);
+}
+
+// returns a promise or error logs
+function getHighlights(target, on_each) {
+  let query = [
+    // search for annotations with a oa:hasSource relationship
+    { subject: db.v('source_bnode'),
+      predicate: 'http://www.w3.org/ns/oa#hasSource',
+      object: target},
+    { subject: db.v('id'),
+      object: db.v('source_bnode')}
+  ];
+  searchStream(query, on_each);
 }
 
 // returns the PouchDB promise
-function storeAnnotation(annotation) {
+function storeAnnotation(annotation, callback) {
   // construcut unique collation friendly id (for _id & id)
   // TODO: find a better URN to keep this stuff in
   // assume annotation.target is an IRI if .source is missing
@@ -73,15 +99,33 @@ function storeAnnotation(annotation) {
     + encodeURI(target_iri)
     + ':' + (new Date).toISOString();
 
-  annotation._id = id;
   annotation.id = id;
 
-  console.log(JSON.stringify(annotation));
+  console.log('stored annotation', JSON.stringify(annotation));
 
-  return db.put(annotation);
+  db.jsonld.put(annotation, callback);
 }
 
+function reindexAllAnnotations() {
+  getAllAnnotations()
+    .then(function(rv) {
+      if ('items' in rv) {
+        console.log('indexing all the things!', rv.items.length);
+        rv.items.forEach(annotation => {
+          console.log('indexing', annotation);
+          storeAnnotation(annotation, (err, rv) => {
+            console.log('stored', err, rv);
+          });
+        });
+      }
+    });
+}
+
+window.getPageNotes = getPageNotes;
+window.getHighlights = getHighlights;
+window.reindexAllAnnotations = reindexAllAnnotations;
+
 module.exports.getAllAnnotations = getAllAnnotations;
-module.exports.getAnnotations = getAnnotations;
+module.exports.getPageNotes = getPageNotes;
 module.exports.getHighlights = getHighlights;
 module.exports.storeAnnotation = storeAnnotation;

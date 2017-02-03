@@ -21,6 +21,7 @@
   "author": "BigBlueHat <byoung@bigbluehat.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "jsonld": "^0.4.11",
     "mustache": "^2.3.0",
     "pouchdb-browser": "^6.0.7",
     "pouchdb-find": "^0.10.3",
@@ -28,6 +29,9 @@
   },
   "devDependencies": {
     "dom-anchor-text-position": "^3.0.3",
-    "dom-anchor-text-quote": "^3.0.0"
+    "dom-anchor-text-quote": "^3.0.0",
+    "level-js": "^2.2.4",
+    "levelgraph": "^2.0.0",
+    "levelgraph-jsonld": "^1.0.3"
   }
 }

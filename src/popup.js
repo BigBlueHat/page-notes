@@ -1,4 +1,4 @@
-const {getAnnotations, storeAnnotation} = require('./storage.js');
+const {getPageNotes, storeAnnotation} = require('./storage.js');
 
 const Mustache = require('mustache');
 
@@ -18,28 +18,25 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
 function displayAnnotations(target) {
   const annotationTemplate = $('#template-event').text();
   const $feed = $('#notes-feed');
-  getAnnotations(target)
-    .then((result) => {
+  getPageNotes(target,
+    (note) => {
+      // TODO: reimplement note counter
       let notes_count = 0;
-      if ('docs' in result && result.docs.length > 0) {
-        notes_count = result.docs.length;
-        // remove "no annotations yet" message
-        $feed.empty();
-        $(result.docs).each(function(i, doc) {
-          let bodies = doc.body.items.sort(function(a, b) {
-            if (a['language'] < b['language']) return -1;
-            if (a['language'] > b['language']) return 1;
-          });
-          let annotation = {
-            created: (new Date(doc.created)).toDateString(),
-            bodies: bodies
-          };
-          annotation.bodies[0].active = true;
-          let rendered = Mustache.render(annotationTemplate, annotation);
-          $feed.append($(rendered));
-        });
-        $('.tabular.menu .item').tab();
-      }
+      // remove "no annotations yet" message
+      //$feed.empty();
+      console.log('note', note);
+      let bodies = note.body.items.sort((a, b) => {
+        if (a['language'] < b['language']) return -1;
+        if (a['language'] > b['language']) return 1;
+      });
+      let annotation = {
+        created: (new Date(note.created)).toDateString(),
+        bodies: bodies
+      };
+      annotation.bodies[0].active = true;
+      let rendered = Mustache.render(annotationTemplate, annotation);
+      $feed.append($(rendered));
+      //$('.tabular.menu .item').tab();
       $('#notes-count').text(notes_count);
     });
 }

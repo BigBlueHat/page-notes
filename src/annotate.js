@@ -29,7 +29,7 @@ function getAnnotation() {
     }
   };
 
-  console.log('annotation', annotation);
+  console.log('annotation from selection', annotation);
 
   return annotation;
 }

@@ -14,20 +14,19 @@ function injectAnnotate(info, tab) {
   chrome.tabs.executeScript(
     tab.id,
     {file: 'annotate.js'},
-    function() {
+    () => {
       // talk to it
       chrome.tabs.sendMessage(
         tab.id,
         {}, // TODO: is there anything we need to tell the content script?
-        function(response) {
-          console.log("Store the Annotation we got back");
-          console.log(response);
+        (response) => {
+          console.log("Store the Annotation we got back", response);
           if ('annotation' in response) {
-            storeAnnotation(response.annotation)
-              .then(function() {
-                // highlight after "Annotate..."
-                injectHighlighter(info, tab);
-              });
+            storeAnnotation(response.annotation, (err, obj) => {
+              console.log('stored', obj);
+              // highlight after "Annotate..."
+              injectHighlighter(info, tab);
+            });
           }
         });
     });
@@ -39,20 +38,12 @@ function injectHighlighter(info, tab) {
   chrome.tabs.executeScript(
     tab.id,
     {file: 'highlighter.js'},
-    function() {
+    () => {
       // get highlights
-      getHighlights(tab.url)
-        .then((results) => {
-          console.log('results', results);
-          if ('docs' in results && results.docs.length > 0) {
-            // send them to the content script, so it can do the highlighting
-            chrome.tabs.sendMessage(
-              tab.id,
-              {annotations: results.docs}
-              // TODO: do we need a callback when the highlighting is done?
-              );
-          }
-        });
+      getHighlights(tab.url, (annotation) => {
+        chrome.tabs.sendMessage(tab.id, {annotation: annotation});
+        // TODO: do we need a callback when the highlighting is done?
+      });
     });
 }
 

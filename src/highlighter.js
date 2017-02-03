@@ -8,9 +8,9 @@ chrome.runtime.onMessage.removeListener();
 
 // setup context-menu listener
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log('annotations', request.annotations);
-    request.annotations.forEach((annotation) => {
+  (request, sender, sendResponse) => {
+    if ('annotation' in request) {
+      let annotation = request.annotation;
       const anno_id = 'anno-' + btoa(annotation.id);
       if ('source' in annotation.target) {
         let selectors = annotation.target.selector;
@@ -32,6 +32,6 @@ chrome.runtime.onMessage.addListener(
           }
         }
       }
-    });
+    }
   }
 );
