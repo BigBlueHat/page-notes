@@ -18,25 +18,25 @@
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <sodipodi:namedview
-     pagecolor="#ffffff"
+     pagecolor="#ffffa6"
      bordercolor="#666666"
      borderopacity="1"
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="0.45098039"
      inkscape:pageshadow="2"
      inkscape:window-width="965"
      inkscape:window-height="959"
      id="namedview10"
      showgrid="false"
      units="px"
-     inkscape:zoom="5.3466827"
-     inkscape:cx="18.241119"
-     inkscape:cy="54.677316"
+     inkscape:zoom="9.5149847"
+     inkscape:cx="23.940078"
+     inkscape:cy="8.0423699"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <defs
      id="defs4" />
@@ -52,29 +52,31 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     id="layer1"
-     transform="matrix(0.0625,0,0,0.0625,-7.2732983,-6.0940663)">
-    <text
-       id="text3336"
-       y="306.64792"
-       x="171.42857"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"
-       sodipodi:linespacing="125%"><tspan
-         y="306.64792"
-         x="171.42857"
-         id="tspan3338" /></text>
-    <text
-       id="text3344"
-       y="609.50507"
-       x="34.811073"
-       style="font-style:normal;font-weight:normal;font-size:241.38490295px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"
-       sodipodi:linespacing="125%"><tspan
-         style="font-size:965.53961182px"
-         y="609.50507"
-         x="34.811073"
-         id="tspan3346">🗈</tspan></text>
-  </g>
+  <text
+     sodipodi:linespacing="125%"
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:2.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="3.4409876"
+     y="13.071428"
+     id="text3336"><tspan
+       id="tspan3338"
+       x="3.4409876"
+       y="13.071428" /></text>
+  <path
+     style="fill:#ffffff"
+     d="m 0.52548695,0.99627167 20.17869805,0 C 23.597289,3.8893761 27.934685,8.7522597 31.31902,12.136594 l 0,18.917529 -30.79353305,0 z"
+     id="rect3349"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cccccc" />
+  <text
+     sodipodi:linespacing="125%"
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:15.08655643px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-5.0976062"
+     y="32"
+     id="text3344"><tspan
+       id="tspan3346"
+       x="-5.0976062"
+       y="32"
+       style="font-size:60.34622574px">🗈</tspan></text>
 </svg>
