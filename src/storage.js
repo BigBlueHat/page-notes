@@ -69,12 +69,14 @@ function storeAnnotation(annotation) {
   // TODO: find a better URN to keep this stuff in
   // assume annotation.target is an IRI if .source is missing
   let target_iri = annotation.target.source || annotation.target;
+  let iso_date = (new Date).toISOString();
   let id = 'urn:page-notes:'
     + encodeURI(target_iri)
-    + ':' + (new Date).toISOString();
+    + ':' + iso_date;
 
   annotation._id = id;
   annotation.id = id;
+  annotation.created = iso_date;
 
   console.log(JSON.stringify(annotation));
 
