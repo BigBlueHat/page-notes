@@ -58,14 +58,14 @@ function injectHighlighter(info, tab) {
 
 chrome.contextMenus.create({
   id: 'annotate',
-  title: 'Annotate...',
+  title: 'Highlight',
   contexts: ["selection"],
   onclick: injectAnnotate
 }, onCreated);
 
 chrome.contextMenus.create({
   id: 'show-annotations',
-  title: 'Show Annotations',
+  title: 'Show Highlights',
   // not including the "selection" context as then we'd get stuck in a sub-menu
   contexts: ["page"],
   onclick: injectHighlighter
