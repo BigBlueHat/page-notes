@@ -6,3 +6,4 @@ extension/background.js
 extension/highlighter.js
 extension/popup/popup.js
 extension/list/list.js
+extension/list/debug-list.js

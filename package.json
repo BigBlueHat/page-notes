@@ -9,7 +9,7 @@
     "build:annotate": "browserify --debug src/annotate.js -o extension/annotate.js",
     "build:highlighter": "browserify --debug src/highlighter.js -o extension/highlighter.js",
     "build:popup": "browserify --debug src/popup.js -o extension/popup/popup.js",
-    "build:list": "browserify --debug src/list.js -o extension/list/list.js",
+    "build:list": "browserify --debug src/list.js -o extension/list/list.js && browserify --debug src/debug-list.js -o extension/list/debug-list.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
