@@ -9,22 +9,24 @@
 
   <script id="template-event" type="text/html;profile=https://mustache.github.io/mustache.5.html">
     <div class="event">
+      <div class="label"><i class="comment outline icon"></i></div>
       <div class="content">
-        <div class="ui top attached tabular menu">
-          <span class="date item">{{created}}</span>
-          <div class="right menu">
-          {{#bodies}}
-          <a class="item{{#active}} active{{/active}}"
-            data-tab="{{language}}">{{language}}</a>
-          {{/bodies}}
+        <div class="summary">
+          <div class="date">{{created}}</div>
+        </div>
+        <div class="extra text">
+          <blockquote class="ui segment">
+            {{#target}}{{#selector}}
+            {{prefix}}
+            <mark>{{exact}}</mark>
+            {{suffix}}
+            {{/selector}}{{/target}}
+          </blockquote>
+          <div class="meta">
+            <i class="world icon"></i>
+            {{#target}}<a href="{{source}}">{{source}}</a>{{/target}}
           </div>
         </div>
-        {{#bodies}}
-        <div class="ui bottom attached tab segment{{#active}} active{{/active}}"
-          data-tab="{{language}}">
-          {{value}}
-        </div>
-        {{/bodies}}
       </div>
     </div>
     <div class="ui horizontal divider"></div>
@@ -34,7 +36,7 @@
   <br />
   <div class="ui container">
     <h3 class="ui header">Primary/Default AnnotationCollection JSON-LD contents</h3>
-    <pre id="all-notes"></pre>
+    <div class="ui feed" id="all-notes"></div>
   </div>
   <br />
 <script src="../lib/jquery.js"></script>
