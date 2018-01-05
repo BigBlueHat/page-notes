@@ -4,12 +4,9 @@
   "description": "Make notes about web pages; translate them; share them.",
   "repository": "https://github.com/BigBlueHat/page-notes",
   "scripts": {
-    "build": "npm run build:background && npm run build:popup && npm run build:annotate && npm run build:list && npm run build:highlighter",
-    "build:background": "browserify --debug src/background.js -o extension/background.js",
-    "build:annotate": "browserify --debug src/annotate.js -o extension/annotate.js",
-    "build:highlighter": "browserify --debug src/highlighter.js -o extension/highlighter.js",
-    "build:popup": "browserify --debug src/popup.js -o extension/popup/popup.js",
-    "build:list": "browserify --debug src/list.js -o extension/list/list.js && browserify --debug src/debug-list.js -o extension/list/debug-list.js",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "clean": "rm extension/dist/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -28,6 +25,7 @@
   },
   "devDependencies": {
     "dom-anchor-text-position": "^3.0.3",
-    "dom-anchor-text-quote": "^3.0.0"
+    "dom-anchor-text-quote": "^3.0.0",
+    "webpack": "^3.10.0"
   }
 }

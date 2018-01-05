@@ -1,9 +1,4 @@
 node_modules
 
 # build these don't commit them
-extension/annotate.js
-extension/background.js
-extension/highlighter.js
-extension/popup/popup.js
-extension/list/list.js
-extension/list/debug-list.js
+extension/dist

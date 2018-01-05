@@ -1,4 +1,4 @@
-const {getAllAnnotations} = require('./storage.js');
+import {getAllAnnotations} from './storage.js';
 
 getAllAnnotations()
   .then(function(rv) {

@@ -1,5 +1,5 @@
-const {getAllAnnotations} = require('./storage.js');
-const Mustache = require('mustache');
+import {getAllAnnotations} from './storage.js';
+import Mustache from 'mustache';
 
 let $all_notes = $('#all-notes');
 let template = $('#template-event').text();

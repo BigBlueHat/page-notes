@@ -1,6 +1,6 @@
-const {getAnnotations, storeAnnotation} = require('./storage.js');
+import {getAnnotations, storeAnnotation} from './storage.js';
 
-const Mustache = require('mustache');
+import Mustache from 'mustache';
 
 const translateApiKey = 'trnsl.1.1.20161110T161225Z.e921f6bf7d2941b2.2c92a0a9be39b02fba4ce72ba91afcdf69d0bb29';
 const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${translateApiKey}`;

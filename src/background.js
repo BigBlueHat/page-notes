@@ -1,4 +1,4 @@
-const {getHighlights, storeAnnotation} = require('./storage.js');
+import {getHighlights, storeAnnotation} from './storage.js';
 
 function onCreated(n) {
   if (chrome.runtime.lastError) {
@@ -13,7 +13,7 @@ function injectAnnotate(info, tab) {
     // TODO: check for and/or remove if present?
   chrome.tabs.executeScript(
     tab.id,
-    {file: 'annotate.js'},
+    {file: 'dist/annotate.js'},
     function() {
       // talk to it
       chrome.tabs.sendMessage(
@@ -38,7 +38,7 @@ function injectHighlighter(info, tab) {
   // TODO: check for and/or remove if present?
   chrome.tabs.executeScript(
     tab.id,
-    {file: 'highlighter.js'},
+    {file: 'dist/highlighter.js'},
     function() {
       // get highlights
       getHighlights(tab.url)

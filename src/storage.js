@@ -1,7 +1,10 @@
-const PouchDB = require('pouchdb-browser');
-PouchDB.plugin(require('pouchdb-find'));
+import PouchDB from 'pouchdb-browser';
+import PouchDBFind from 'pouchdb-find';
+PouchDB.plugin(PouchDBFind);
 
 const db = new PouchDB('page-notes');
+// debug only!
+window.db = db;
 
 // create the target, log any output...just 'cause
 db
@@ -14,7 +17,7 @@ db
   .catch(console.log.bind(console));
 
 // Promise returns a Web Annotation Container
-function getAllAnnotations() {
+export function getAllAnnotations() {
   return db.allDocs({include_docs: true})
     .then(function(results) {
       var annotations = {
@@ -42,7 +45,7 @@ function getAllAnnotations() {
 
 // returns a promise or error logs
 // TODO: rename this to getPageNotes
-function getAnnotations(target) {
+export function getAnnotations(target) {
   return db
     .find({
       selector: {
@@ -53,7 +56,7 @@ function getAnnotations(target) {
 }
 
 // returns a promise or error logs
-function getHighlights(target) {
+export function getHighlights(target) {
   return db
     .find({
       selector: {
@@ -64,7 +67,7 @@ function getHighlights(target) {
 }
 
 // returns the PouchDB promise
-function storeAnnotation(annotation) {
+export function storeAnnotation(annotation) {
   // construcut unique collation friendly id (for _id & id)
   // TODO: find a better URN to keep this stuff in
   // assume annotation.target is an IRI if .source is missing
@@ -82,8 +85,3 @@ function storeAnnotation(annotation) {
 
   return db.put(annotation);
 }
-
-module.exports.getAllAnnotations = getAllAnnotations;
-module.exports.getAnnotations = getAnnotations;
-module.exports.getHighlights = getHighlights;
-module.exports.storeAnnotation = storeAnnotation;

@@ -1,6 +1,6 @@
-const textPosition = require('dom-anchor-text-position');
-const textQuote = require('dom-anchor-text-quote');
-const wrapRange = require('wrap-range-text');
+import * as textPosition from 'dom-anchor-text-position'
+import * as textQuote from 'dom-anchor-text-quote'
+import wrapRange from 'wrap-range-text';
 
 const page_notes_class = 'page-notes-highlighter';
 
