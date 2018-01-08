@@ -21,8 +21,7 @@ function injectAnnotate(info, tab) {
         {}, // TODO: is there anything we need to tell the content script?
         function(response) {
           console.log("Store the Annotation we got back");
-          console.log(response);
-          if ('annotation' in response) {
+          if (undefined !== response && 'annotation' in response) {
             storeAnnotation(response.annotation)
               .then(function() {
                 // highlight after "Annotate..."
