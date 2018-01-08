@@ -18,6 +18,7 @@
   "author": "BigBlueHat <byoung@bigbluehat.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "html2canvas": "^1.0.0-alpha.9",
     "mustache": "^2.3.0",
     "pouchdb-browser": "^6.0.7",
     "pouchdb-find": "^0.10.3",

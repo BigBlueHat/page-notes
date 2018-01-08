@@ -18,7 +18,7 @@ function injectAnnotate(info, tab) {
       // talk to it
       chrome.tabs.sendMessage(
         tab.id,
-        {}, // TODO: is there anything we need to tell the content script?
+        {screenshot: true}, // TODO: is there anything we need to tell the content script?
         function(response) {
           console.log("Store the Annotation we got back");
           if (undefined !== response && 'annotation' in response) {
