@@ -15,17 +15,23 @@
           <div class="date">{{created}}</div>
         </div>
         <div class="extra text">
+          {{#body}}{{#items}}{{value}}{{/items}}{{/body}}
+          {{#target}}{{#selector}}
+          {{#exact}}
           <blockquote class="ui segment">
-            {{#target}}{{#selector}}
             {{prefix}}
-            <mark>{{exact}}</mark>
+            <mark>{{.}}</mark>
             {{suffix}}
-            {{/selector}}{{/target}}
           </blockquote>
+          {{/exact}}
+          {{/selector}}{{/target}}
         </div>
         <div class="meta">
           <i class="world icon"></i>
-          {{#target}}<a href="{{source}}">{{source}}</a>{{/target}}
+          {{#target}}
+          {{#source}}<a href="{{.}}">{{.}}</a>{{/source}}
+          {{^source}}<a href="{{.}}">{{.}}</a>{{/source}}
+          {{/target}}
         </div>
       </div>
     </div>
