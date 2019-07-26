@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "mustache": "^2.3.0",
-    "pouchdb-browser": "^6.0.7",
+    "pouchdb-browser": "^7.0.0",
     "pouchdb-find": "^0.10.3",
     "wrap-range-text": "^1.0.1"
   },
