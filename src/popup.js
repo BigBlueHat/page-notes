@@ -74,11 +74,16 @@ $form.on('submit', function(ev) {
 
   // TODO: change arbitrary length text check to something smarter
   if ('value' in formData && formData.value.length > 4) {
-    let languages = formData.languages
-      .filter(function(lang) {
-        // don't translate into the same language as the text
-        return (lang !== formData['value-language']);
-      });
+
+    // TODO: improve these if statements...they're horrible...
+    let languages = [];
+    if ('languages' in formData) {
+      languages = formData.languages
+        .filter(function(lang) {
+          // don't translate into the same language as the text
+          return (lang !== formData['value-language']);
+        });
+    }
 
     if (languages.length > 0) {
       let lamdas = languages.map(function(lang) {
