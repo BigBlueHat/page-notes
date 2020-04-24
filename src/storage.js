@@ -10,7 +10,7 @@ window.db = db;
 db
   .createIndex({
     index: {
-      fields: ['target']
+      fields: ['target', 'target.source', 'created']
     }
   })
   .then(console.log.bind(console))
@@ -49,8 +49,10 @@ export function getAnnotations(target) {
   return db
     .find({
       selector: {
+        created: {$gte: null},
         target: target
-      }
+      },
+      sort: [{created: 'desc'}]
     })
     .catch(console.error.bind(console));
 }
