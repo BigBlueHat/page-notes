@@ -10,8 +10,14 @@
   <script id="template-event" type="text/html;profile=https://mustache.github.io/mustache.5.html">
     <div class="event">
       <div class="content">
-        <div class="ui top attached tabular menu">
-          <span class="date item">{{created}}</span>
+        <span class="date item">{{created}}</span>
+        {{#bodies}}
+        <div class="ui top attached tab segment{{#active}} active{{/active}}"
+          data-tab="{{language}}">
+          {{value}}
+        </div>
+        {{/bodies}}
+        <div class="ui bottom attached mini tabular menu">
           <div class="right menu">
           {{#bodies}}
           <a class="item{{#active}} active{{/active}}"
@@ -19,12 +25,7 @@
           {{/bodies}}
           </div>
         </div>
-        {{#bodies}}
-        <div class="ui bottom attached tab segment{{#active}} active{{/active}}"
-          data-tab="{{language}}">
-          {{value}}
-        </div>
-        {{/bodies}}
+        <hr />
       </div>
     </div>
     <div class="ui horizontal divider"></div>
