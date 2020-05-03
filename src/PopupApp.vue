@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getAnnotations } from './storage.js';
+import { getAnnotations } from './storage';
 import NotesList from './NotesList';
 import NewNoteForm from './NewNoteForm';
 
@@ -27,17 +27,18 @@ export default {
     return {
       target: '',
       annotations: []
-    }
+    };
   },
   beforeCreate() {
     chrome.tabs.query(
       { active: true, currentWindow: true },
       (results) => {
         this.target = results[0].url;
-      });
+      }
+    );
   },
   watch: {
-    target(v) {
+    target() {
       this.loadAnnotations();
     }
   },
@@ -55,8 +56,8 @@ export default {
         .then((result) => {
           if ('docs' in result && result.docs.length > 0) {
             this.annotations = result.docs.map((doc) => {
-              let temp = doc;
-              // TODO: maybe don't later data just to hide it...
+              const temp = doc;
+              // TODO: maybe don't alter data just to hide it...
               delete temp.target;
               return temp;
             });
@@ -68,5 +69,5 @@ export default {
     NewNoteForm,
     NotesList
   }
-}
+};
 </script>

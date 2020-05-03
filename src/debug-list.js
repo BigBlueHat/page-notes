@@ -1,6 +1,6 @@
-import {getAllAnnotations} from './storage.js';
+import { getAllAnnotations } from './storage';
 
 getAllAnnotations()
-  .then(function(rv) {
+  .then((rv) => {
     document.getElementById('debug-output').innerText = JSON.stringify(rv, null, '  ');
   });

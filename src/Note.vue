@@ -5,7 +5,8 @@
     </div>
     <div class="extra text" v-if="annotation.body">
       <div v-for="item in annotation.body.items">
-        <span v-if="item.language && annotation.body.items.length > 1" class="ui label">{{ item.language }}</span>
+        <span v-if="item.language && annotation.body.items.length > 1"
+          class="ui label">{{ item.language }}</span>
         {{item.value}}
       </div>
     </div>
@@ -16,9 +17,9 @@
         {{exactSelector.suffix}}
       </blockquote>
     </div>
-    <div class="meta" v-if="_source">
+    <div class="meta" v-if="source">
       <i class="world icon"></i>
-      <a :href="_source">{{_source}}</a>
+      <a :href="source">{{source}}</a>
     </div>
   </div>
 </template>
@@ -27,35 +28,30 @@
 export default {
   props: ['annotation'],
   computed: {
-    _source() {
+    source() {
       if ('target' in this.annotation
         && typeof this.annotation.target === 'object'
         && 'source' in this.annotation.target) {
         return this.annotation.target.source;
-      } else {
-        return this.annotation.target;
       }
+      return this.annotation.target;
     },
     exactSelector() {
       if (typeof this.annotation.target === 'object'
           && 'selector' in this.annotation.target) {
-        let selector = this.annotation.target.selector;
+        const { selector } = this.annotation.target;
         if (typeof selector === 'object') {
           if (Array.isArray(selector)) {
-            let exact = selector.map((sel) => {
-              if ('exact' in sel) {
-                return sel;
-              }
-            }).filter((i) => i); // clean out empties
+            const exact = selector.filter((sel) => 'exact' in sel);
             return exact[0];
-          } else if ('exact' in selector) {
+          }
+          if ('exact' in selector) {
             return selector;
           }
         }
-      } else {
-        return false;
       }
+      return false;
     }
   }
-}
+};
 </script>

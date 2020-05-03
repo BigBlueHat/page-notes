@@ -1,5 +1,6 @@
 import PouchDB from 'pouchdb-browser';
 import PouchDBFind from 'pouchdb-find';
+
 PouchDB.plugin(PouchDBFind);
 
 const db = new PouchDB('page-notes');
@@ -13,14 +14,14 @@ db
       fields: ['target', 'target.source', 'created']
     }
   })
-  .then(console.log.bind(console))
-  .catch(console.log.bind(console));
+  .then(console.info)
+  .catch(console.error);
 
 // Promise returns a Web Annotation Container
 export function getAllAnnotations() {
-  return db.allDocs({include_docs: true})
-    .then(function(results) {
-      var annotations = {
+  return db.allDocs({ include_docs: true })
+    .then((results) => {
+      const annotations = {
         '@context': 'http://www.w3.org/ns/anno.jsonld',
         // TODO: ...how do we make this actually universal?
         // ...user is not yet identified
@@ -32,7 +33,7 @@ export function getAllAnnotations() {
       };
 
       if ('rows' in results) {
-        results.rows.forEach(function(row) {
+        results.rows.forEach((row) => {
           if ('doc' in row && row.doc.type === 'Annotation') {
             annotations.items.push(row.doc);
           }
@@ -49,10 +50,10 @@ export function getAnnotations(target) {
   return db
     .find({
       selector: {
-        created: {$gte: null},
-        target: target
+        created: { $gte: null },
+        target
       },
-      sort: [{created: 'desc'}]
+      sort: [{ created: 'desc' }]
     })
     .catch(console.error.bind(console));
 }
@@ -73,15 +74,14 @@ export function storeAnnotation(annotation) {
   // construcut unique collation friendly id (for _id & id)
   // TODO: find a better URN to keep this stuff in
   // assume annotation.target is an IRI if .source is missing
-  let target_iri = annotation.target.source || annotation.target;
-  let iso_date = (new Date).toISOString();
-  let id = 'urn:page-notes:'
-    + encodeURI(target_iri)
-    + ':' + iso_date;
+  const targetIri = annotation.target.source || annotation.target;
+  const isoDate = (new Date()).toISOString();
+  const id = `urn:page-notes:${encodeURI(targetIri)}:${isoDate}`;
 
-  annotation._id = id;
-  annotation.id = id;
-  annotation.created = iso_date;
+  const annotationToStore = annotation;
+  annotationToStore._id = id;
+  annotationToStore.id = id;
+  annotationToStore.created = isoDate;
 
-  return db.put(annotation);
+  return db.put(annotationToStore);
 }

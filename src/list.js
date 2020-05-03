@@ -1,7 +1,8 @@
-import {getAllAnnotations} from './storage.js';
 import Vue from 'vue';
+import { getAllAnnotations } from './storage';
 import NotesList from './NotesList';
 
+// eslint-disable-next-line no-new
 new Vue({
   el: '#all-notes',
   data: {
