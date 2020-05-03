@@ -1,7 +1,7 @@
 <template>
   <div class="ui feed">
     <template v-for="annotation in annotations">
-      <div class="event">
+      <div class="event" :key="annotation.id">
         <div class="label"><i class="comment outline icon"></i></div>
         <Note :annotation="annotation" />
       </div>
