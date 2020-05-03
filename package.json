@@ -21,11 +21,18 @@
     "mustache": "^2.3.0",
     "pouchdb-browser": "^7.2.1",
     "pouchdb-find": "^0.10.5",
+    "vue": "^2.6.11",
     "wrap-range-text": "^1.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
     "dom-anchor-text-position": "^3.0.3",
     "dom-anchor-text-quote": "^3.0.0",
-    "webpack": "^3.10.0"
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
