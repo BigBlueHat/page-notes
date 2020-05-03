@@ -3,6 +3,7 @@
 
 module.exports = {
   root: true,
+  ignorePatterns: ['extension/lib/', 'node_modules/', 'dist/'],
   parserOptions: {
     parser: 'babel-eslint'
   },
@@ -49,6 +50,8 @@ module.exports = {
     // for Windows
     'linebreak-style': 'off',
     // don't require excessive commas
-    'comma-dangle': 'off'
+    'comma-dangle': 'off',
+    'no-console': ['error', { allow: ['info', 'warn', 'error'] }],
+    'no-underscore-dangle': ["error", { "allow": ["_id", "_rev"] }]
   }
 }

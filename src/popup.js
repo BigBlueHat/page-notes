@@ -1,11 +1,10 @@
-import { getAnnotations } from './storage.js';
-
 import Vue from 'vue';
 import PopupApp from './PopupApp';
 
-window.app = new Vue({
+// eslint-disable-next-line no-new
+new Vue({
   el: '#app',
-  render: h => h('PopupApp'),
+  render: (h) => h('PopupApp'),
   components: {
     PopupApp
   }

@@ -8,13 +8,13 @@ import * as textQuote from 'dom-anchor-text-quote';
 function getAnnotation() {
   const selection = window.getSelection();
   const range = selection.getRangeAt(0);
-  if (range.collapsed) return;
+  if (range.collapsed) return {};
 
   const textPositionSelector = textPosition.fromRange(document.body, range);
-  Object.assign(textPositionSelector, {type: 'TextPositionSelector'});
+  Object.assign(textPositionSelector, { type: 'TextPositionSelector' });
 
   const textQuoteSelector = textQuote.fromRange(document.body, range);
-  Object.assign(textQuoteSelector, {type: 'TextQuoteSelector'});
+  Object.assign(textQuoteSelector, { type: 'TextQuoteSelector' });
 
   const annotation = {
     '@context': 'http://www.w3.org/ns/anno.jsonld',
@@ -29,16 +29,12 @@ function getAnnotation() {
     }
   };
 
-  console.log('annotation', annotation);
-
   return annotation;
 }
 
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log("Sending the Annotation to the background script:");
-    sendResponse({
-      annotation: getAnnotation()
-    });
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  sendResponse({
+    annotation: getAnnotation()
   });
+});

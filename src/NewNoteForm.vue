@@ -13,36 +13,36 @@
 </template>
 
 <script>
-import { storeAnnotation } from './storage.js';
+import { storeAnnotation } from './storage';
 
 export default {
   props: ['target'],
   data() {
     return {
       note: ''
-    }
+    };
   },
   methods: {
     submit() {
-      let annotation = {
-        "@context": "http://www.w3.org/ns/anno.jsonld",
-        "type": "Annotation",
-        "created": (new Date()).toISOString(),
-        "body": {
-          "type": "Choice",
-          "items": [
+      const annotation = {
+        '@context': 'http://www.w3.org/ns/anno.jsonld',
+        type: 'Annotation',
+        created: (new Date()).toISOString(),
+        body: {
+          type: 'Choice',
+          items: [
             {
-              "type": "TextualBody",
-              "value": this.note,
-              "language": "en",
-              "format": "text/plain",
-              "creator": {
-                "type": "Person"
+              type: 'TextualBody',
+              value: this.note,
+              language: 'en',
+              format: 'text/plain',
+              creator: {
+                type: 'Person'
               }
             }
           ]
         },
-        "target": this.target
+        target: this.target
       };
 
       storeAnnotation(annotation)
@@ -54,5 +54,5 @@ export default {
         .catch(console.error);
     }
   }
-}
+};
 </script>
