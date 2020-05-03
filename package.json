@@ -18,7 +18,6 @@
   "author": "BigBlueHat <byoung@bigbluehat.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "mustache": "^2.3.0",
     "pouchdb-browser": "^7.2.1",
     "pouchdb-find": "^0.10.5",
     "vue": "^2.6.11",

@@ -23,7 +23,7 @@ let NotesFeed = new Vue({
     },
     annotations(v) {
       // TODO: untangle this and make it part of the component
-      $('#notes-count').text(v.length);
+      document.querySelector('#notes-count').textContent = v.length;
     }
   },
   methods: {
@@ -73,7 +73,7 @@ let NoteForm = new Vue({
 });
 
 
-$('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
+document.querySelector('#list-link').setAttribute('href', chrome.runtime.getURL('list/index.html'));
 
 let currentTabURL = false;
 chrome.tabs
