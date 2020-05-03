@@ -6,30 +6,6 @@
   <title>Make a Page Note</title>
 
   <link rel="stylesheet" href="../lib/semantic/semantic.css" />
-
-  <script id="template-event" type="text/html;profile=https://mustache.github.io/mustache.5.html">
-    <div class="event">
-      <div class="content">
-        <span class="date item">{{created}}</span>
-        {{#bodies}}
-        <div class="ui top attached tab segment{{#active}} active{{/active}}"
-          data-tab="{{language}}">
-          {{value}}
-        </div>
-        {{/bodies}}
-        <div class="ui bottom attached mini tabular menu">
-          <div class="right menu">
-          {{#bodies}}
-          <a class="item{{#active}} active{{/active}}"
-            data-tab="{{language}}">{{language}}</a>
-          {{/bodies}}
-          </div>
-        </div>
-        <hr />
-      </div>
-    </div>
-    <div class="ui horizontal divider"></div>
-  </script>
 </head>
 <body>
   <br />
@@ -59,10 +35,6 @@
   </div>
   <br />
 <script src="../lib/jquery.js"></script>
-<script src="../lib/semantic/checkbox.js"></script>
-<script src="../lib/semantic/dropdown.js"></script>
-<script src="../lib/semantic/tab.js"></script>
-<script src="../lib/semantic/transition.js"></script>
 <script src="../lib/semantic/form.js"></script>
 <script src="../dist/popup.js"></script>
 </body>

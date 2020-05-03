@@ -16,7 +16,7 @@
         {{exactSelector.suffix}}
       </blockquote>
     </div>
-    <div class="meta">
+    <div class="meta" v-if="_source">
       <i class="world icon"></i>
       <a :href="_source">{{_source}}</a>
     </div>
