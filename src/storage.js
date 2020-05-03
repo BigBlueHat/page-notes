@@ -83,7 +83,5 @@ export function storeAnnotation(annotation) {
   annotation.id = id;
   annotation.created = iso_date;
 
-  console.log(JSON.stringify(annotation));
-
   return db.put(annotation);
 }
