@@ -9,28 +9,22 @@ chrome.runtime.onMessage.addListener(
     if ('annotations' in request) {
       request.annotations.forEach((annotation) => {
         const annoId = `anno-${btoa(annotation.id)}`;
-        if ('source' in annotation.target) {
+        // TODO: probably more efficient to find all marks first, then pull
+        // check ID's later
+        const existingMarks = document.querySelectorAll(`[data-annotation-id="${annoId}"]`);
+        // no existing marks, and the annotation is a highlight
+        if (existingMarks.length === 0 && 'source' in annotation.target) {
           const selectors = annotation.target.selector;
-          for (let i = 0; i < selectors.length; i + 1) {
-            const selector = selectors[i];
+          selectors.forEach((selector) => {
             const { type } = selector;
-
-            const existingMarks = document.querySelectorAll(`[data-annotation-id="${annoId}"]`);
-            const mark = document.createElement('mark');
-            const range = textPosition.toRange(document.body, selector);
-            switch (type) {
-              case 'TextPositionSelector':
-                // skip existing marks
-                if (existingMarks.length === 0) {
-                  mark.dataset.annotationId = annoId;
-                  mark.classList.add('page-notes');
-                  wrapRange(mark, range);
-                }
-                break;
-              default:
-                break;
+            if (type === 'TextPositionSelector') {
+              const mark = document.createElement('mark');
+              mark.dataset.annotationId = annoId;
+              mark.classList.add('page-notes');
+              const range = textPosition.toRange(document.body, selector);
+              wrapRange(mark, range);
             }
-          }
+          });
         }
       });
     }
