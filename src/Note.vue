@@ -4,7 +4,10 @@
       <div class="date">{{annotation.created}}</div>
     </div>
     <div class="extra text" v-if="annotation.body">
-      <span v-for="item in annotation.body.items">{{item.value}}</span>
+      <div v-for="item in annotation.body.items">
+        <span v-if="item.language && annotation.body.items.length > 1" class="ui label">{{ item.language }}</span>
+        {{item.value}}
+      </div>
     </div>
     <div class="extra text" v-if="exactSelector">
       <blockquote class="ui segment">
