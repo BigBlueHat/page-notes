@@ -1,6 +1,8 @@
 import {getAnnotations, storeAnnotation} from './storage.js';
 
 import Mustache from 'mustache';
+import Vue from 'vue';
+import NotesList from './NotesList';
 
 const translateApiKey = 'trnsl.1.1.20161110T161225Z.e921f6bf7d2941b2.2c92a0a9be39b02fba4ce72ba91afcdf69d0bb29';
 const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${translateApiKey}`;
@@ -15,36 +17,47 @@ const translateURL = `https://translate.yandex.net/api/v1.5/tr.json/translate?ke
    & [callback=<name of the callback function>]
  **/
 
-function displayAnnotations(target) {
-  const annotationTemplate = $('#template-event').text();
-  const $feed = $('#notes-feed');
-  getAnnotations(target)
-    .then((result) => {
-      let notes_count = 0;
-      if ('docs' in result && result.docs.length > 0) {
-        notes_count = result.docs.length;
-        // remove "no annotations yet" message
-        $feed.empty();
-        $(result.docs).each(function(i, doc) {
-          let bodies = doc.body.items.sort(function(a, b) {
-            if (a['language'] < b['language']) return -1;
-            if (a['language'] > b['language']) return 1;
-          });
-          let annotation = {
-            created: (new Date(doc.created)).toDateString(),
-            bodies: bodies
-          };
-          annotation.bodies[0].active = true;
-          let rendered = Mustache.render(annotationTemplate, annotation);
-          $feed.append($(rendered));
-        });
-        $('.tabular.menu .item').tab();
+let NotesFeed = new Vue({
+  el: '#notes-feed',
+  data: {
+    target: '',
+    annotations: []
+  },
+  render(h) {
+    return h('NotesList', {
+      props: {
+        annotations: this.annotations
       }
-      $('#notes-count').text(notes_count);
     });
-}
-
-$('.ui.checkbox').checkbox();
+  },
+  watch: {
+    target() {
+      this.loadAnnotations();
+    },
+    annotations(v) {
+      // TODO: untangle this and make it part of the component
+      $('#notes-count').text(v.length);
+    }
+  },
+  methods: {
+    loadAnnotations() {
+      getAnnotations(this.target)
+        .then((result) => {
+          if ('docs' in result && result.docs.length > 0) {
+            this.annotations = result.docs.map((doc) => {
+              let temp = doc;
+              // TODO: maybe don't later data just to hide it...
+              delete temp.target;
+              return temp;
+            });
+          }
+        });
+    }
+  },
+  components: {
+    NotesList
+  }
+});
 
 var $form = $('#page-note');
 $form.on('submit', function(ev) {
@@ -112,15 +125,15 @@ $form.on('submit', function(ev) {
         .done(function() {
           storeAnnotation(annotation)
             .then(function() {
-              console.log.bind(console);
-              displayAnnotations(annotation.target);
+              NotesFeed.target = annotation.target;
+              NotesFeed.loadAnnotations();
             });
         });
     } else {
       storeAnnotation(annotation)
         .then(function() {
-          console.log.bind(console);
-          displayAnnotations(annotation.target);
+          NotesFeed.target = annotation.target;
+          NotesFeed.loadAnnotations();
         });
     }
   }
@@ -128,7 +141,6 @@ $form.on('submit', function(ev) {
 
 
 $('#list-link').attr('href', chrome.runtime.getURL('list/index.html'));
-$('.ui.dropdown').dropdown();
 
 let currentTabURL = false;
 chrome.tabs
@@ -139,6 +151,6 @@ chrome.tabs
       $('#current-tab-url').attr('title', currentTabURL)
         .find('input').val(currentTabURL);
       // show any annotations we have on popup
-      displayAnnotations(currentTabURL);
+      NotesFeed.target = currentTabURL;
     });
 $form.find('textarea').focus();
