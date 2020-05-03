@@ -1,13 +1,33 @@
 import {getAllAnnotations} from './storage.js';
-import Mustache from 'mustache';
+import Vue from 'vue';
+import NotesList from './NotesList';
 
-let $all_notes = $('#all-notes');
-let template = $('#template-event').text();
-getAllAnnotations()
-  .then(function(rv) {
-    if ('items' in rv) {
-      rv.items.forEach((item) => {
-        $all_notes.append(Mustache.render(template, item));
-      });
+new Vue({
+  el: '#all-notes',
+  data: {
+    annotations: []
+  },
+  render(h) {
+    return h('NotesList', {
+      props: {
+        annotations: this.annotations
+      }
+    });
+  },
+  created() {
+    this.loadAnnotations();
+  },
+  methods: {
+    loadAnnotations() {
+      getAllAnnotations()
+        .then((rv) => {
+          if ('items' in rv) {
+            this.annotations = rv.items;
+          }
+        });
     }
-  });
+  },
+  components: {
+    NotesList
+  }
+});

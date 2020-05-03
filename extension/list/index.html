@@ -6,37 +6,6 @@
   <title>Page Notes</title>
 
   <link rel="stylesheet" href="../lib/semantic/semantic.css" />
-
-  <script id="template-event" type="text/html;profile=https://mustache.github.io/mustache.5.html">
-    <div class="event">
-      <div class="label"><i class="comment outline icon"></i></div>
-      <div class="content">
-        <div class="summary">
-          <div class="date">{{created}}</div>
-        </div>
-        <div class="extra text">
-          {{#body}}{{#items}}{{value}}{{/items}}{{/body}}
-          {{#target}}{{#selector}}
-          {{#exact}}
-          <blockquote class="ui segment">
-            {{prefix}}
-            <mark>{{.}}</mark>
-            {{suffix}}
-          </blockquote>
-          {{/exact}}
-          {{/selector}}{{/target}}
-        </div>
-        <div class="meta">
-          <i class="world icon"></i>
-          {{#target}}
-          {{#source}}<a href="{{.}}">{{.}}</a>{{/source}}
-          {{^source}}<a href="{{.}}">{{.}}</a>{{/source}}
-          {{/target}}
-        </div>
-      </div>
-    </div>
-    <div class="ui horizontal divider"></div>
-  </script>
 </head>
 <body>
   <br />
@@ -44,11 +13,6 @@
     <h3 class="ui header">Primary/Default AnnotationCollection JSON-LD contents</h3>
     <div class="ui feed" id="all-notes"></div>
   </div>
-  <br />
-<script src="../lib/jquery.js"></script>
-<script src="../lib/semantic/checkbox.js"></script>
-<script src="../lib/semantic/tab.js"></script>
-<script src="../lib/semantic/form.js"></script>
 <script src="../dist/list.js"></script>
 </body>
 </html>
