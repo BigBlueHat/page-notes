@@ -11,14 +11,13 @@
     </div>
     <div class="ui container">
       <div class="ui feed" id="notes-feed">
-        <NotesList :annotations="annotations" />
+        <NotesList ref="list" :target="target" @loaded="updateCount" />
       </div>
     </div>
   </main>
 </template>
 
 <script>
-import { getAnnotations } from './storage';
 import NotesList from './NotesList';
 import NewNoteForm from './NewNoteForm';
 
@@ -26,7 +25,7 @@ export default {
   data() {
     return {
       target: '',
-      annotations: []
+      notes_count: 0
     };
   },
   beforeCreate() {
@@ -37,32 +36,17 @@ export default {
       }
     );
   },
-  watch: {
-    target() {
-      this.loadAnnotations();
-    }
-  },
   computed: {
-    notes_count() {
-      return this.annotations.length;
-    },
     list_link() {
       return chrome.runtime.getURL('list/index.html');
     }
   },
   methods: {
     loadAnnotations() {
-      getAnnotations(this.target)
-        .then((result) => {
-          if ('docs' in result && result.docs.length > 0) {
-            this.annotations = result.docs.map((doc) => {
-              const temp = doc;
-              // TODO: maybe don't alter data just to hide it...
-              delete temp.target;
-              return temp;
-            });
-          }
-        });
+      this.$refs.list.loadAnnotations();
+    },
+    updateCount(v) {
+      this.notes_count = v;
     }
   },
   components: {

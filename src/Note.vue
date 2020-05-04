@@ -2,6 +2,9 @@
   <div class="content">
     <div class="summary">
       <div class="date">{{annotation.created}}</div>
+      <div class="ui basic tiny red icon button" @click="remove">
+        <i class="icon trash alternate outline"></i>
+      </div>
     </div>
     <div class="extra text" v-if="annotation.body">
       <div v-for="item in annotation.body.items">
@@ -51,6 +54,11 @@ export default {
         }
       }
       return false;
+    }
+  },
+  methods: {
+    remove() {
+      this.$emit('remove', this.annotation);
     }
   }
 };

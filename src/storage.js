@@ -85,3 +85,7 @@ export function storeAnnotation(annotation) {
 
   return db.put(annotationToStore);
 }
+
+export function removeAnnotation(id, rev) {
+  return db.remove(id, rev);
+}
