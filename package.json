@@ -1,6 +1,7 @@
 {
   "name": "page-notes",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "private": true,
   "description": "Make notes about web pages; translate them; share them.",
   "repository": "https://github.com/BigBlueHat/page-notes",
   "scripts": {
@@ -27,6 +28,7 @@
     "pouchdb-browser": "^7.2.1",
     "pouchdb-find": "^0.10.5",
     "vue": "^2.6.11",
+    "vue-clickaway": "^2.2.2",
     "wrap-range-text": "^1.0.1"
   },
   "devDependencies": {

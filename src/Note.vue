@@ -2,8 +2,11 @@
   <div class="content">
     <div class="summary">
       <div class="date">{{annotation.created}}</div>
-      <div class="ui basic tiny red icon button" @click="remove">
+      <div class="ui basic tiny red right floated icon button"
+        @click="ux_confirm_delete ? remove() : ux_confirm_delete = true"
+        v-on-clickaway="unconfirm">
         <i class="icon trash alternate outline"></i>
+        <i v-if="ux_confirm_delete" class="icon question"></i>
       </div>
     </div>
     <div class="extra text" v-if="annotation.body">
@@ -28,8 +31,21 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
 export default {
+  mixins: [clickaway],
   props: ['annotation'],
+  data() {
+    return {
+      ux_confirm_delete: false
+    };
+  },
+  watch: {
+    ux_confirm_delete(v) {
+      console.log('can delete?', v);
+    }
+  },
   computed: {
     source() {
       if ('target' in this.annotation
@@ -58,7 +74,12 @@ export default {
   },
   methods: {
     remove() {
-      this.$emit('remove', this.annotation);
+      if (this.ux_confirm_delete) {
+        this.$emit('remove', this.annotation);
+      }
+    },
+    unconfirm() {
+      this.ux_confirm_delete = false;
     }
   }
 };
